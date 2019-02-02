@@ -13,22 +13,49 @@
   <body>
     <div class="container my-5 text-center">
     	<button class="btn btn-danger w-100" onclick="traer()">Obtener</button>
-    	<div class="mt-5" id="contenido">
-            
+    	<div class="mt-5">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">id</th>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Correo</th>
+                  <th scope="col">Estado</th>
+                </tr>
+              </thead>
+              <tbody id="contenido">
+                
+              </tbody>
+            </table>
     	</div>
     </div>
 
     <script>
         var contenido = document.querySelector('#contenido');
-    	function traer(){
-    		fetch('https://randomuser.me/api/')
-    		.then(res => res.json())
-            .then(data => {
-                console.log(data.results[0].email);
-                contenido.innerHTML = `<img src="${data.results[0].picture.medium}" width="100px" class="img-fluid rounded-circle">
-            <p>Nombre: ${data.results[0].name.first} ${data.results[0].name.last}</p>`
-            });
-    	}
+    	
+        function traer(){
+            fetch('tabla.json')
+                .then(res => res.json())
+                .then(datos => {
+                    console.log(datos);
+                    tabla(datos);
+                });
+        }
+
+        function tabla(datos){
+            contenido.innerHTML = '';
+            for( let value of datos){
+                console.log(value);
+                contenido.innerHTML += `
+                <tr>
+                  <th scope="row">${ value.id }</th>
+                  <td>${ value.nombre }</td>
+                  <td>${ value.email }</td>
+                  <td>${ value.estado ? "Activo" : "Eliminado" }</td>
+                </tr>`
+            }
+        }
+
     </script>
 
   </body>
