@@ -14,18 +14,20 @@
     <div class="container my-5 text-center">
     	<button class="btn btn-danger w-100" onclick="traer()">Obtener</button>
     	<div class="mt-5" id="contenido">
+            
     	</div>
     </div>
 
     <script>
         var contenido = document.querySelector('#contenido');
     	function traer(){
-    		fetch('texto.txt')
-    		.then(data => data.text())
-    		.then(data => {
-    			console.log(data);
-                contenido.innerHTML = `${ data }`;
-    		});
+    		fetch('https://randomuser.me/api/')
+    		.then(res => res.json())
+            .then(data => {
+                console.log(data.results[0].email);
+                contenido.innerHTML = `<img src="${data.results[0].picture.medium}" width="100px" class="img-fluid rounded-circle">
+            <p>Nombre: ${data.results[0].name.first} ${data.results[0].name.last}</p>`
+            });
     	}
     </script>
 
